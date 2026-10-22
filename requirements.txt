@@ -1,0 +1,12 @@
+python-dotenv
+pypdf
+pandas
+langchain
+langchain-core
+langchain-community
+langchain-google-genai
+langchain-text-splitters
+langfuse
+rank_bm25
+sentence-transformers
+faiss-cpu
