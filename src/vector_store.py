@@ -1,6 +1,5 @@
 
 import json
-from pathlib import Path
 
 import faiss
 import numpy as np
@@ -8,12 +7,10 @@ import numpy as np
 from chunking import create_chunks
 from load_pdfs import load_pdfs
 from embeddings import create_embeddings
+from config import STORE_FOLDER, FAISS_INDEX_PATH, CHUNKS_METADATA_PATH
 
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-STORE_FOLDER = PROJECT_ROOT / "vector_store"
-INDEX_PATH = STORE_FOLDER / "faiss.index"
-METADATA_PATH = STORE_FOLDER / "chunks.json"
+INDEX_PATH = FAISS_INDEX_PATH
+METADATA_PATH = CHUNKS_METADATA_PATH
 
 
 def build_vector_store():
@@ -33,7 +30,7 @@ def build_vector_store():
 
     texts = [chunk["text"] for chunk in chunks]
 
-    embeddings = create_embeddings(texts)
+    embeddings = create_embeddings(texts, show_progress_bar=True)
     vectors = np.asarray(embeddings, dtype="float32")
 
     # Each vector has 384 dimensions for this embedding model

@@ -1,12 +1,7 @@
 
-from pathlib import Path
 from pypdf import PdfReader
 
-# Find the project root directory
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-# Folder containing PDF documents
-PDF_FOLDER = PROJECT_ROOT / "pdfs"
+from config import PDF_FOLDER
 
 
 def load_pdfs():

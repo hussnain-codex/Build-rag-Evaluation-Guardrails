@@ -1,22 +1,25 @@
 
 import json
-from pathlib import Path
 
 import faiss
 import numpy as np
 
+from config import FAISS_INDEX_PATH, CHUNKS_METADATA_PATH
 from embeddings import create_embeddings
 
+INDEX_PATH = FAISS_INDEX_PATH
+METADATA_PATH = CHUNKS_METADATA_PATH
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-STORE_FOLDER = PROJECT_ROOT / "vector_store"
-
-INDEX_PATH = STORE_FOLDER / "faiss.index"
-METADATA_PATH = STORE_FOLDER / "chunks.json"
+_vector_store_cache = None
 
 
 def load_vector_store():
-    """Load the saved FAISS index and chunk metadata."""
+    """Load the saved FAISS index and chunk metadata (cached after first call)."""
+
+    global _vector_store_cache
+
+    if _vector_store_cache is not None:
+        return _vector_store_cache
 
     if not INDEX_PATH.exists() or not METADATA_PATH.exists():
         raise FileNotFoundError(
@@ -31,7 +34,8 @@ def load_vector_store():
     if index.ntotal != len(chunks):
         raise ValueError("Index and chunk metadata do not match.")
 
-    return index, chunks
+    _vector_store_cache = (index, chunks)
+    return _vector_store_cache
 
 
 def retrieve_chunks(question, top_k=4):

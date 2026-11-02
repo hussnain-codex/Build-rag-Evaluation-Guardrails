@@ -11,7 +11,6 @@ def create_chunks(documents):
         chunk_overlap=50,
         add_start_index=True
     )
-
     chunks = []
 
     for document in documents:
