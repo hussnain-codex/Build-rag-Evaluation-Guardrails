@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+from config import GEMINI_MODEL_NAME
+
 # Load environment variables from the project root
 load_dotenv()
 
@@ -13,9 +15,8 @@ if not google_api_key:
 
 # Initialize the Gemini model
 llm = ChatGoogleGenerativeAI(
-    model="gemini-3.8-flash",
+    model=GEMINI_MODEL_NAME,
     google_api_key=google_api_key,
-   
 )
 
 # Send a simple test request
